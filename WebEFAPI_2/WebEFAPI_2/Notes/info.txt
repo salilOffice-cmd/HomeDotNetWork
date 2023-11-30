@@ -1,0 +1,20 @@
+
+EmployeeController and Employee model 
+--> For CRUD Operations in sqlserver
+
+DepartmentController and Department model 
+--> // Giving custom validations
+	// 1. Directly adding error message to modelstate
+	// 2. Using custom attribute (see ./Validations/DeptNameCheckAttribute.cs)
+
+DepartmentController and Department model 
+--> Understanding model binding:
+	1. from body
+	2. from query
+	3. from route
+
+ClientController and Client model 
+--> Understanding dependency execution
+
+MyLogging folder
+--> For demonstrating dependency execution

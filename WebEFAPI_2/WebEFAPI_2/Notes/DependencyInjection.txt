@@ -1,0 +1,117 @@
+In ASP.NET Core, AddSingleton, AddScoped, and AddTransient
+are methods provided by the built-in Dependency Injection (DI) container
+to register services with "different lifetimes".
+These methods are used during application startup to configure the services
+that your application needs.
+
+
+1. AddSingleton
+
+
+Explanation:
+	Services registered using AddSingleton are created once
+	and shared throughout the lifetime of the application.
+	This means that a single instance of the service is created and reused for all requests
+
+Benefits:
+	Shared instance across the application.
+	Efficient for stateful, long-lived services.
+	Avoids the cost of creating and disposing objects repeatedly.
+
+Drawbacks:
+	Not suitable for services that need per-request or per-scope data.
+	Overhead if the service is never used during the application's lifecycle.
+
+When to Use:
+	Use for services that are stateful and should be shared across the entire application.
+	Typically for configuration managers, logging services, or other shared resources
+
+Practical Example:
+	Consider a configuration manager that loads settings from a file at application startup
+	and provides those settings throughout the entire application's lifetime.
+
+
+
+2. AddScoped
+
+
+Explanation:
+	Imagine having a friend who's there for you for a limited time.
+	They come, help you out, and then go away.
+	In your application, this service is created for every request
+	and is only around for that specific request's use.
+	
+
+Benefits:
+	New instance per HTTP request, ensuring data isolation.
+	Suitable for services that need per-request or per-scope data.
+	Efficient for stateful services within the scope of a request.
+
+Drawbacks:
+	Not suitable for long-lived, shared services.
+	May lead to increased resource consumption if not scoped correctly.
+
+When to Use:
+	Use for services that require data isolation within the scope of an HTTP request,
+	such as database contexts, caches, or per-request services.
+
+Practical Example: 
+	Imagine you have a database context that you want to create for each incoming HTTP request.
+	You use AddScoped to ensure a new database context is created and disposed of per request.
+
+
+
+
+
+3. AddTransient
+
+
+Explanation:
+	In your application, this service is created fresh every time you need it.
+
+Benefits:
+	New instance created every time it's requested.
+	Suitable for stateless and lightweight services.
+	Efficient for services that don't need to maintain state.
+
+Drawbacks:
+	May lead to more memory consumption if used extensively for complex, stateful services.
+	Not suitable for services that need shared state.
+
+When to Use:
+	Use for stateless, lightweight services, or when a new instance is required on each request.
+	Ideal for services like simple helpers, ID generators, or transient, one-off tasks.
+
+
+
+
+
+--> Difference between Scoped and Transient
+
+Scoped
+	Think of it as having a reusable item (e.g., a tool) that you pass
+	to different people (components) for the duration of a single task (HTTP request).
+	The item is created at the beginning of the task and shared among those who need it.
+	At the end of the task, the item is put away, and everyone gets a fresh one for the next task.
+	Use AddScoped when: You want to share data or state among components within
+	a single task (HTTP request).
+
+AddTransient
+	You want to give each component its own independent instance, like a clean cup for every use.
+	You don't need to maintain any shared data or state between uses.
+
+	In the context of ASP.NET Core's dependency injection,
+	a "component" typically refers to a class or a service
+	that is requesting a dependency (object) to be injected.
+	These components can include, but are not limited to, controllers, services,
+	or any class that is registered with the DI container.
+
+
+--> DI(Dependency Injection) Container:
+	In a software application, you often have classes or components that depend on
+	other classes or services to perform their tasks.
+	These dependent classes are called "dependencies."
+	In ASP.NET Core, the built-in DI container is used to configure and manage these dependencies.
+	You define how different classes or services depend on each other,
+	and the DI container takes care of creating instances and
+	ensuring they are available when needed.

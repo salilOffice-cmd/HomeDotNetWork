@@ -1,0 +1,2 @@
+D:\DayUsers\SalilDeogade\Personal\HPersonalNotes\dotnetProjects\HomeDotNetWork\APIArchitectureProjects\APIwithArchitecture&DI&ExHandling2\APIwithArchitecture&DI&ExHandling2\obj\Debug\net7.0\APIwithArchitecture&DI&ExHandling2.csproj.AssemblyReference.cache
+D:\DayUsers\SalilDeogade\Personal\HPersonalNotes\dotnetProjects\HomeDotNetWork\APIArchitectureProjects\APIwithArchitecture&DI&ExHandling2\APIwithArchitecture&DI&ExHandling2\obj\Debug\net7.0\APIwithArchitecture&DI&ExHandling2.GeneratedMSBuildEditorConfig.editorconfig
