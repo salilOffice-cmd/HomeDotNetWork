@@ -31,7 +31,7 @@ namespace Application.StudentsCQRS.Queries
         public async Task<List<ViewStudentDTO>> Handle(GetAllStudentsQuery request, CancellationToken cancellationToken)
         {
             var gotAllStudents = await context.Students.ToListAsync();
-
+            
             // AutoMapper changes -->
             // Now i can comment this
             //var allStudentsDTO = gotAllStudents.Select(s => new ViewStudentDTO
@@ -48,6 +48,7 @@ namespace Application.StudentsCQRS.Queries
             //}).ToList();
 
             var allStudentsDTO = mapper.Map<List<ViewStudentDTO>>(gotAllStudents);
+
 
 
             return allStudentsDTO;

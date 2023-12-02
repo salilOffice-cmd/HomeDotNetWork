@@ -27,11 +27,31 @@ namespace WebApi.Controllers
         //}
 
 
+        [HttpGet]
+        [Route("courses/{courseID:min(1)}")]
+        public async Task<ActionResult> GetCourseByIDAsync(int courseID)
+        {
+            var gotCourse = await Mediator.Send(new GetCourseByIDQuery { CourseID = courseID });
+            return Ok(gotCourse);
+        }
+
+
+        [HttpGet]
+        [Route("courses")]
+        public async Task<ActionResult> GetAllCoursesAsync([FromQuery] int limit)
+        {
+            var gotAllCourses = await Mediator.Send(new GetAllCoursesQuery { limitCount = limit});
+            return Ok(gotAllCourses);
+        }
+
+
+
         [HttpPost]
-        [Route("Add")]
+        [Route("courses")]
         public async Task<ActionResult> AddCourseAsync([FromBody] AddCourseDTO _addCourseDTO)
         {
-            var validationResult = addCourseValidator.Validate(_addCourseDTO);
+            //var validationResult = addCourseValidator.Validate(_addCourseDTO);
+            var validationResult = await addCourseValidator.ValidateAsync(_addCourseDTO);
             if(!validationResult.IsValid)
             {
                 var errors = validationResult.Errors.Select(e => e.ErrorMessage);
@@ -45,26 +65,10 @@ namespace WebApi.Controllers
         }
 
 
-        [HttpGet]
-        [Route("get/{courseID}")]
-        public async Task<ActionResult> GetCourseByIDAsync(int courseID)
-        {
-            var gotCourse = await Mediator.Send(new GetCourseByIDQuery{ CourseID =  courseID });
-            return Ok(gotCourse);
-        }
-
-
-        [HttpGet]
-        [Route("getAll")]
-        public async Task<ActionResult> GetAllCoursesAsync()
-        {
-            var gotAllCourses = await Mediator.Send(new GetAllCoursesQuery { });
-            return Ok(gotAllCourses);
-        }
-
+        
 
         [HttpDelete]
-        [Route("delete/{courseID}")]
+        [Route("courses/{courseID}")]
         public async Task<ActionResult> DeleteCourseByIDAsync(int courseID)
         {
             var gotMessage = await Mediator.Send(new DeleteCourseCommand { CourseID = courseID });
@@ -73,10 +77,13 @@ namespace WebApi.Controllers
 
 
         [HttpPut]
-        [Route("update")]
-        public async Task<ActionResult> UpdateCourse([FromBody] UpdateCourseDTO _updateCourseDTO)
+        [Route("courses/{courseID}")]
+        public async Task<ActionResult> UpdateCourse(int courseID, [FromBody] UpdateCourseDTO _updateCourseDTO)
         {
-            var gotMessage = await Mediator.Send(new UpdateCourseCommand { UpdateCourseDTO = _updateCourseDTO });
+            var gotMessage = await Mediator.Send(new UpdateCourseCommand {
+                                            courseId = courseID,
+                                            UpdateCourseDTO = _updateCourseDTO
+                                            });
             return Ok(gotMessage);
         }
     }

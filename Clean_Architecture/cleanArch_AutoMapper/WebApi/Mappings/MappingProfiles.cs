@@ -22,15 +22,16 @@ namespace WebApi.Mappings
 
             // In case the name of the property are different in source and destination
             CreateMap<Student, ViewStudentDTO>()
-                .ForMember(dest => dest.StudentName111,
-                           opt => opt.MapFrom(src => src.StudentName))
-            // In case you have some extra logic when showing the property
+                //.ForMember(dest => dest.StudentName111,
+                //           opt => opt.MapFrom(src => src.StudentName));
+            //// In case you have some extra logic when showing the property
                 .ForMember(dest => dest.CreatedDetails,
                                    opt => opt.MapFrom(src => $"{src.CreatedBy} - {src.CreatedDate}"));
 
 
 
             // 2. Adding Student
+            // source to destination
             //CreateMap<AddStudentDTO, Student>();
 
             CreateMap<AddStudentDTO, Student>()

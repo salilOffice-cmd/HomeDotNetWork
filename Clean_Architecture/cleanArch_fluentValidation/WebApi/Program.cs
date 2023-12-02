@@ -19,12 +19,13 @@ builder.Services.AddSwaggerGen();
 
 
 
-// Creating the context object
+// Creating the context object for
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(
         builder.
         Configuration.GetConnectionString("DefaultConnectionString"),
-        builder => builder.MigrationsAssembly(typeof(ApplicationDBContext).Assembly.FullName))
+        builder => builder.MigrationsAssembly(typeof(ApplicationDBContext).Assembly.FullName)),
+        ServiceLifetime.Transient
     );
 
 

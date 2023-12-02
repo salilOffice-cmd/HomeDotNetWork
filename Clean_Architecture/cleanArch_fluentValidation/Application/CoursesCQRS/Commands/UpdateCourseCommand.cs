@@ -12,6 +12,7 @@ namespace Application.CoursesCQRS.Commands
 {
     public class UpdateCourseCommand : IRequest<string>
     {
+        public int courseId { get; set; }
         public UpdateCourseDTO UpdateCourseDTO { get; set; }
     }
 
@@ -31,7 +32,7 @@ namespace Application.CoursesCQRS.Commands
             var gotCoursesTable = await context.Courses.AsNoTracking().ToListAsync();
 
             var gotCourse = gotCoursesTable
-                            .FirstOrDefault(c => c.CourseId == updateCourseDTO.CourseId);
+                            .FirstOrDefault(c => c.CourseId == request.courseId);
 
             if (gotCourse != null)
             {
@@ -39,7 +40,7 @@ namespace Application.CoursesCQRS.Commands
 
                 Course updatedCourseObject = new Course
                 {
-                    CourseId = updateCourseDTO.CourseId,
+                    CourseId = request.courseId,
                     CourseName = updateCourseDTO.CourseName,
                     CreatedBy = gotCourse.CreatedBy,
                     CreatedDate = gotCourse.CreatedDate,

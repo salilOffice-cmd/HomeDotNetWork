@@ -43,7 +43,7 @@ namespace Application.StudentsCQRS.Commands
             //    IsActive = true
             //};
 
-
+            //                          <destination>(source)
             var newStudent = mapper.Map<Student>(addStudentDTO);
 
             newStudent.CreatedDate = DateTime.Now;

@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "rHb7fRzncifNWx2sxk6ITpbXRU837xav1Oc/VBForxruYF9X3WoqhAN6J8FlfBiB6dItOH9s+AgLkvAC8J2m2A==",
+  "dgSpecHash": "EAITUKJXZLvyS1z65JydbQ7TDqy9zPEgHiDNWfd5BrEroW6MxTllOUwcajCX152who3tx9MxODMMbe2GyUH04w==",
   "success": true,
   "projectFilePath": "D:\\DayUsers\\SalilDeogade\\Personal\\HPersonalNotes\\dotnetProjects\\HomeDotNetWork\\Clean_Architecture\\cleanArch_manyToMany\\Application\\Application.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\salildeogade\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\salildeogade\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\salildeogade\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
     "C:\\Users\\salildeogade\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\salildeogade\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\salildeogade\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.14\\microsoft.entityframeworkcore.7.0.14.nupkg.sha512",
     "C:\\Users\\salildeogade\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.14\\microsoft.entityframeworkcore.abstractions.7.0.14.nupkg.sha512",
     "C:\\Users\\salildeogade\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.14\\microsoft.entityframeworkcore.analyzers.7.0.14.nupkg.sha512",

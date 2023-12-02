@@ -1,4 +1,5 @@
-﻿using Application.CQRS.StudentsCQRS.Commands;
+﻿using Application.CQRS.CoursesCQRS.Queries;
+using Application.CQRS.StudentsCQRS.Commands;
 using Application.CQRS.StudentsCQRS.Queries;
 using Application.DTOs.CourseDTOs;
 using Application.DTOs.StudentDTOs;
@@ -11,7 +12,7 @@ namespace WebApi.Controllers
     public class StudentController : APIControllerBase
     {
         [HttpPost]
-        [Route("Add")]
+        [Route("students")]
         public async Task<ActionResult> AddStudentAsync([FromBody] AddStudentDTO _addStudentDTO)
         {
             var addStudentCommand = new AddStudentCommand { addStudentDTO = _addStudentDTO };
@@ -20,7 +21,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("getAll")]
+        [Route("students")]
         public async Task<ActionResult> GetAllStudentsAsync()
         {
             var gotAllStudents = await Mediator.Send(new GetAllStudentsQuery { });
@@ -28,7 +29,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete]
-        [Route("delete/{studentID}")]
+        [Route("students/{studentID}")]
         public async Task<ActionResult> DeleteStudentByIDAsync(int studentID)
         {
             var gotMessage = await Mediator.Send(new DeleteStudentCommand { StudentID = studentID });
@@ -36,26 +37,38 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        [Route("update")]
-        public async Task<ActionResult> UpdateStudent([FromBody] UpdateStudentDTO _updateStudentDTO)
+        [Route("students/{studentID}")]
+        public async Task<ActionResult> UpdateStudent(int studentID, [FromBody] UpdateStudentDTO _updateStudentDTO)
         {
-            var gotMessage = await Mediator.Send(new UpdateStudentCommand { UpdateStudentDTO = _updateStudentDTO });
+            var gotMessage = await Mediator.Send(new UpdateStudentCommand {
+                                                studentId = studentID,
+                                                UpdateStudentDTO = _updateStudentDTO
+                                            });
             return Ok(gotMessage);
         }
 
+
+        [HttpGet]
+        [Route("students/{studentID}/courses")]
+        public async Task<ActionResult> GetCoursesByStudentIDAsync(int studentID)
+        {
+            var gotResponse = await Mediator.Send(new GetCoursesByStudentIDQuery { StudentID = studentID });
+            return Ok(gotResponse);
+        }
 
 
         [HttpPost]
-        [Route("EnrollStudentInCourse")]
-        public async Task<ActionResult> EnrollStudentInCourseAsybc(
-                                            int _CourseID,
-                                            int _StudentID )
+        [Route("enrollStudentInCourse/{studentId}/{courseId}")]
+        public async Task<ActionResult> EnrollStudentInCourseAsync( int studentId, int courseId)
         {
             var gotMessage = await Mediator.Send(
-                            new EnrollStudentInCourseCommand { CourseID = _CourseID, StudentID = _StudentID});
+                            new EnrollStudentInCourseCommand { CourseID = courseId, StudentID = studentId });
 
-            return Ok(gotMessage);
+            return Ok(new {gotMessage});
         }
+
+
+
 
 
     }

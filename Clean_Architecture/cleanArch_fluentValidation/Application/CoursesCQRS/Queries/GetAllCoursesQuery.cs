@@ -12,7 +12,7 @@ namespace Application.CoursesCQRS.Queries
 {
     public class GetAllCoursesQuery : IRequest<List<ViewCourseDTO>>
     {
-
+        public int limitCount { get; set; }
     }
 
     public class GetAllCoursesQuery_Handler : IRequestHandler<GetAllCoursesQuery, List<ViewCourseDTO>>
@@ -25,7 +25,17 @@ namespace Application.CoursesCQRS.Queries
 
         public async Task<List<ViewCourseDTO>> Handle(GetAllCoursesQuery request, CancellationToken cancellationToken)
         {
-            var gotAllCourses = await context.Courses.ToListAsync();
+            List<Course> gotAllCourses;
+            if (request.limitCount > 0)
+            {
+                 gotAllCourses = await context.Courses.Take(request.limitCount).ToListAsync();
+            }
+
+            else
+            {
+                gotAllCourses = await context.Courses.ToListAsync();
+            }
+
             var allCoursesDTO = gotAllCourses.Select(c => new ViewCourseDTO
             {
                 CourseId = c.CourseId,

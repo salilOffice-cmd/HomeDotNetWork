@@ -13,6 +13,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+// Registering dependency for automapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
 // Creating the context object
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(

@@ -13,6 +13,7 @@ namespace Application.StudentsCQRS.Commands
 {
     public class UpdateStudentCommand : IRequest<string>
     {
+        public int studentId { get; set; }
         public UpdateStudentDTO UpdateStudentDTO { get; set; }
     }
 
@@ -30,11 +31,11 @@ namespace Application.StudentsCQRS.Commands
             var updateStudentDTO = request.UpdateStudentDTO;
 
             var gotStudentTable = await context.Students
-                //.AsNoTracking()
+                .AsNoTracking()
                 .ToListAsync();
 
             var gotStudent = gotStudentTable
-                            .FirstOrDefault(s => s.StudentID == updateStudentDTO.StudentID);
+                            .FirstOrDefault(s => s.StudentID == request.studentId);
 
             if (gotStudent != null)
             {
@@ -42,7 +43,7 @@ namespace Application.StudentsCQRS.Commands
 
                 Student updatedStudentObject = new Student
                 {
-                    StudentID = updateStudentDTO.StudentID,
+                    StudentID = gotStudent.StudentID,
                     StudentName = updateStudentDTO.StudentName,
                     StudentAge = updateStudentDTO.StudentAge,
                     CreatedBy = gotStudent.CreatedBy,

@@ -8,7 +8,6 @@ namespace Application.DTOs.CourseDTOs
 {
     public class UpdateCourseDTO
     {
-        public int CourseId { get; set; }
         public string CourseName { get; set; }
     }
 }

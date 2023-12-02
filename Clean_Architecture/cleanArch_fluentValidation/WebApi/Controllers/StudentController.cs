@@ -11,8 +11,27 @@ namespace WebApi.Controllers
 {
     public class StudentController : APIControllerBase
     {
+
+        [HttpGet]
+        [Route("students/{studentID}")]
+        public async Task<ActionResult> GetStudentByIDAsync(int studentID)
+        {
+            var gotStudent = await Mediator.Send(new GetStudentByIDQuery { studentID = studentID });
+            return Ok(gotStudent);
+        }
+
+
+        [HttpGet]
+        [Route("students")]
+        public async Task<ActionResult> GetAllStudentsAsync()
+        {
+            var gotAllStudents = await Mediator.Send(new GetAllStudentsQuery { });
+            return Ok(gotAllStudents);
+        }
+
+
         [HttpPost]
-        [Route("Add")]
+        [Route("students")]
         public async Task<ActionResult> AddStudentAsync([FromBody] AddStudentDTO _addStudentDTO)
         {
             var addStudentCommand = new AddStudentCommand { addStudentDTO = _addStudentDTO };
@@ -20,24 +39,9 @@ namespace WebApi.Controllers
             return Ok(gotAddedStudent);
         }
 
-        [HttpGet]
-        [Route("get/{studentID}")]
-        public async Task<ActionResult> GetStudentByIDAsync(int studentID)
-        {
-            var gotStudent = await Mediator.Send(new GetStudentByIDQuery { studentID = studentID });
-            return Ok(gotStudent);
-        }
-
-        [HttpGet]
-        [Route("getAll")]
-        public async Task<ActionResult> GetAllStudentsAsync()
-        {
-            var gotAllStudents = await Mediator.Send(new GetAllStudentsQuery { });
-            return Ok(gotAllStudents);
-        }
 
         [HttpDelete]
-        [Route("delete/{studentID}")]
+        [Route("students/{studentID}")]
         public async Task<ActionResult> DeleteStudentByIDAsync(int studentID)
         {
             var gotMessage = await Mediator.Send(new DeleteStudentCommand { StudentID = studentID });
@@ -45,10 +49,13 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        [Route("update")]
-        public async Task<ActionResult> UpdateStudent([FromBody] UpdateStudentDTO _updateStudentDTO)
+        [Route("students/{studentID}")]
+        public async Task<ActionResult> UpdateStudent(int studentID, [FromBody] UpdateStudentDTO _updateStudentDTO)
         {
-            var gotMessage = await Mediator.Send(new UpdateStudentCommand { UpdateStudentDTO = _updateStudentDTO });
+            var gotMessage = await Mediator.Send(new UpdateStudentCommand { 
+                                            studentId = studentID,
+                                            UpdateStudentDTO = _updateStudentDTO
+                                           });
             return Ok(gotMessage);
         }
     }

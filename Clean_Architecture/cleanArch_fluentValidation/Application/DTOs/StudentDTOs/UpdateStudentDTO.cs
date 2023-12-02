@@ -9,7 +9,6 @@ namespace Application.DTOs.StudentDTOs
 {
     public class UpdateStudentDTO
     {
-        public int StudentID { get; set; }
         public string StudentName { get; set; }
         public string StudentAge { get; set; }
         public int CourseID { get; set; }
