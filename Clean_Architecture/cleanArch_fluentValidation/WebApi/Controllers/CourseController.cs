@@ -3,6 +3,7 @@ using Application.CoursesCQRS.Queries;
 using Application.DTOs.CourseDTOs;
 using Application.StudentsCQRS.Queries;
 using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,15 +17,15 @@ namespace WebApi.Controllers
             addCourseValidator = _addCourseValidator;
         }
 
-        //public ActionResult validateRoute(IValidationContext obj, IValidator validator)
-        //{
-        //    var validationResult = validator.Validate(obj);
-        //    if (!validationResult.IsValid)
-        //    {
-        //        var errors = validationResult.Errors.Select(e => e.ErrorMessage);
-        //        return BadRequest(new { errors });
-        //    }
-        //}
+        private ActionResult HandleValidationResult(ValidationResult validationResult)
+        {
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage);
+                return BadRequest(new { errors });
+            }
+            return null; // Return null if validation is successful
+        }
 
 
         [HttpGet]
@@ -50,14 +51,19 @@ namespace WebApi.Controllers
         [Route("courses")]
         public async Task<ActionResult> AddCourseAsync([FromBody] AddCourseDTO _addCourseDTO)
         {
-            //var validationResult = addCourseValidator.Validate(_addCourseDTO);
-            var validationResult = await addCourseValidator.ValidateAsync(_addCourseDTO);
-            if(!validationResult.IsValid)
+            var validationResult = addCourseValidator.Validate(_addCourseDTO);
+            //var validationResult = await addCourseValidator.ValidateAsync(_addCourseDTO);
+
+            // This repeated code is added to a function above 'HandleValidationResult'
+            if (!validationResult.IsValid)
             {
                 var errors = validationResult.Errors.Select(e => e.ErrorMessage);
-                return BadRequest(new { errors });
-            }    
 
+                return BadRequest(new { errors });
+            }
+
+            //var result = HandleValidationResult(validationResult);
+            //if (result != null) return result;  
 
             var addCourseCommand = new AddCourseCommand { addCourseDTO = _addCourseDTO};
             var gotAddedCourse = await Mediator.Send(addCourseCommand);

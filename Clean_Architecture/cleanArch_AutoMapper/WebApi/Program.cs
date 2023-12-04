@@ -21,12 +21,13 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(
         builder.
         Configuration.GetConnectionString("DefaultConnectionString"),
-        builder => builder.MigrationsAssembly(typeof(ApplicationDBContext).Assembly.FullName))
+        builder => builder.MigrationsAssembly(typeof(ApplicationDBContext).Assembly.FullName)),
+        ServiceLifetime.Transient
     );
 
 
 // Dependency injection for the context object
-builder.Services.AddScoped<IApplicationDBContext>(
+builder.Services.AddTransient<IApplicationDBContext>(
     provider => provider.GetRequiredService<ApplicationDBContext>()
 );
 

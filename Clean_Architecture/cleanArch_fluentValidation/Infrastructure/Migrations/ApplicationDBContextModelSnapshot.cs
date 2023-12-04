@@ -52,6 +52,24 @@ namespace Infrastructure.Migrations
                     b.HasKey("CourseId");
 
                     b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            CourseId = 1,
+                            CourseName = "course1",
+                            CreatedBy = "Server",
+                            CreatedDate = new DateTime(2023, 12, 4, 12, 30, 8, 1, DateTimeKind.Local).AddTicks(3637),
+                            IsActive = true
+                        },
+                        new
+                        {
+                            CourseId = 2,
+                            CourseName = "course2",
+                            CreatedBy = "Server",
+                            CreatedDate = new DateTime(2023, 12, 4, 12, 30, 8, 1, DateTimeKind.Local).AddTicks(3653),
+                            IsActive = true
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Student", b =>

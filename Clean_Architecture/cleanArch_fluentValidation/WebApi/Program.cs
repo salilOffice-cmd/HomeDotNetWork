@@ -4,6 +4,7 @@ using Application.Validators;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure;
+using Infrastructure.Seedings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,7 @@ builder.Services.AddSwaggerGen();
 
 
 
-// Creating the context object for
+// Creating the context object
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(
         builder.
@@ -34,19 +35,30 @@ builder.Services.AddScoped<IApplicationDBContext>(
     provider => provider.GetRequiredService<ApplicationDBContext>()
 );
 
-// service for type 'MediatR.ISender' has been registered.
+
+
+// Service for type 'MediatR.ISender' has been registered.
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 });
 
 
 
-// register Validator with the service provider
+// Register Validator 
 builder.Services.AddScoped<IValidator<AddCourseDTO>, CourseValidator>();
 //builder.Services.AddValidatorsFromAssemblyContaining<CourseValidator>();
 
 
 var app = builder.Build();
+
+
+
+// Adding Seeding data
+// The data should be inserted to the database only after building the application
+// That's why this line needs to be written here
+CourseSeeder.SeedData(app.Services);
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
